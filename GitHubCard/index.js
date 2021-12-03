@@ -5,15 +5,19 @@ import axios from 'axios';
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
-axios.get('https://api.github.com/users/ChristOscar')
-.then(resp => {
-  console.log(resp)
-}).catch(error => {
-  console.log(error);
-  const errorMsg = document.createElement('p');
-      errorMsg.textContent = "AHHHHHHH";
-      entryPoint.appendChild(errorMsg);
-})
+// axios.get('https://api.github.com/users/ChristOscar')
+// .then(resp => {
+//   console.log(resp => {
+//     console.log(resp.data);
+//     const getData = resp;
+//     const receiver = document.querySelector('.cards');
+//     receiver.appendChild(gitCardMaker(getData));
+//   })
+// }).catch(error => {
+//   console.log(error);
+// }).finally(() => {
+//   console.log('Yes it\'s working')
+// })
 
 
 /*
@@ -40,7 +44,27 @@ axios.get('https://api.github.com/users/ChristOscar')
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = [ 
+  'ChristOscar',
+  'tetondan',
+  'dustinmyers',
+  'justsml',
+  'luishrd',
+  'bigknell',
+  
+];
+
+followersArray.forEach(follower => {
+  axios.get(`https://api.github.com/users/${follower}`
+).then( resp => {
+  console.log(resp.data);
+  const getData = resp;
+  const receiver = document.querySelector('.cards');
+  receiver.appendChild(gitCardMaker(getData));
+}).catch(error =>{
+  console.error(error);
+}).finally(() => console.log("working"));
+})
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -69,7 +93,8 @@ function gitCardMaker(object){
   const name = document.createElement('h3');
   const userName = document.createElement('p');
   const location = document.createElement('p');
-  const profile = document.createElement('a');
+  const profile = document.createElement('p');
+  const profileLink = document.createElement('a');
   const followers = document.createElement('p');
   const following = document.createElement('p');
   const bio = document.createElement('p');
@@ -93,7 +118,21 @@ function gitCardMaker(object){
   location.textContent = object.data.location;
   gitContent.appendChild(userName);
 
-  profile.textContent = object.data.html_url;
+  gitContent.appendChild(profile);
+
+  profileLink.src = `https://github.com/${object.data.login}`;
+  profile.appendChild(profileLink);
+
+  followers.textContent = object.data.followers;
+  gitContent.appendChild(followers);
+
+  following.textContent = object.data.following;
+  gitContent.appendChild(following);
+
+  bio.textContent = object.data.bio;
+  gitContent.appendChild(bio);
+
+  return gitCard;
 
 
 
