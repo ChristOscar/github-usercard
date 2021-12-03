@@ -115,21 +115,25 @@ function gitCardMaker(object){
   userName.classList.add('username');
   gitContent.appendChild(userName);
 
-  location.textContent = object.data.location;
-  gitContent.appendChild(userName);
+  
+  location.textContent = `Location: ${object.data.location}`;
+  gitContent.appendChild(location);
 
+  profile.textContent = `Profile: `;
   gitContent.appendChild(profile);
 
-  profileLink.src = `https://github.com/${object.data.login}`;
+  profileLink.href = `https://github.com/${object.data.login}`;
+  profileLink.textContent = 'Link to Profile';
   profile.appendChild(profileLink);
 
-  followers.textContent = object.data.followers;
+  followers.textContent = `Followers: ${object.data.followers}`;
   gitContent.appendChild(followers);
 
-  following.textContent = object.data.following;
+  following.textContent = `Following: ${object.data.following}`;
   gitContent.appendChild(following);
 
-  bio.textContent = object.data.bio;
+  
+  bio.textContent = `Bio: ${object.data.bio}`;
   gitContent.appendChild(bio);
 
   return gitCard;
