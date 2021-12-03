@@ -1,8 +1,24 @@
+import axios from 'axios';
+
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+// axios.get('https://api.github.com/users/ChristOscar')
+// .then(resp => {
+//   console.log(resp => {
+//     console.log(resp.data);
+//     const getData = resp;
+//     const receiver = document.querySelector('.cards');
+//     receiver.appendChild(gitCardMaker(getData));
+//   })
+// }).catch(error => {
+//   console.log(error);
+// }).finally(() => {
+//   console.log('Yes it\'s working')
+// })
+
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -28,7 +44,27 @@
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = [ 
+  'ChristOscar',
+  'tetondan',
+  'dustinmyers',
+  'justsml',
+  'luishrd',
+  'bigknell',
+  
+];
+
+followersArray.forEach(follower => {
+  axios.get(`https://api.github.com/users/${follower}`
+).then( resp => {
+  console.log(resp.data);
+  const getData = resp;
+  const receiver = document.querySelector('.cards');
+  receiver.appendChild(gitCardMaker(getData));
+}).catch(error =>{
+  console.error(error);
+}).finally(() => console.log("working"));
+})
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -49,6 +85,64 @@ const followersArray = [];
       </div>
     </div>
 */
+function gitCardMaker(object){
+  // instandtiating the elements
+  const gitCard = document.createElement('div');
+  const pImage = document.createElement('img');
+  const gitContent = document.createElement('div');
+  const name = document.createElement('h3');
+  const userName = document.createElement('p');
+  const location = document.createElement('p');
+  const profile = document.createElement('p');
+  const profileLink = document.createElement('a');
+  const followers = document.createElement('p');
+  const following = document.createElement('p');
+  const bio = document.createElement('p');
+  // setting class names, attributes and text 
+  gitCard.classList.add('card');
+  
+  gitCard.appendChild(pImage);
+  pImage.src = object.data.avatar_url;
+
+  gitContent.classList.add('card-info');
+  gitCard.appendChild(gitContent);
+
+  name.textContent = object.data.name;
+  name.classList.add('name');
+  gitContent.appendChild(name);
+
+  userName.textContent = object.data.login;
+  userName.classList.add('username');
+  gitContent.appendChild(userName);
+
+  
+  location.textContent = `Location: ${object.data.location}`;
+  gitContent.appendChild(location);
+
+  profile.textContent = `Profile: `;
+  gitContent.appendChild(profile);
+
+  profileLink.href = `https://github.com/${object.data.login}`;
+  profileLink.textContent = 'Link to Profile';
+  profile.appendChild(profileLink);
+
+  followers.textContent = `Followers: ${object.data.followers}`;
+  gitContent.appendChild(followers);
+
+  following.textContent = `Following: ${object.data.following}`;
+  gitContent.appendChild(following);
+
+  
+  bio.textContent = `Bio: ${object.data.bio}`;
+  gitContent.appendChild(bio);
+
+  return gitCard;
+
+
+
+}
+
+
 
 /*
   List of LS Instructors Github username's:
