@@ -1,8 +1,20 @@
+import axios from 'axios';
+
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+axios.get('https://api.github.com/users/ChristOscar')
+.then(resp => {
+  console.log(resp)
+}).catch(error => {
+  console.log(error);
+  const errorMsg = document.createElement('p');
+      errorMsg.textContent = "AHHHHHHH";
+      entryPoint.appendChild(errorMsg);
+})
+
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -49,6 +61,45 @@ const followersArray = [];
       </div>
     </div>
 */
+function gitCardMaker(object){
+  // instandtiating the elements
+  const gitCard = document.createElement('div');
+  const pImage = document.createElement('img');
+  const gitContent = document.createElement('div');
+  const name = document.createElement('h3');
+  const userName = document.createElement('p');
+  const location = document.createElement('p');
+  const profile = document.createElement('a');
+  const followers = document.createElement('p');
+  const following = document.createElement('p');
+  const bio = document.createElement('p');
+  // setting class names, attributes and text 
+  gitCard.classList.add('card');
+  
+  gitCard.appendChild(pImage);
+  pImage.src = object.data.avatar_url;
+
+  gitContent.classList.add('card-info');
+  gitCard.appendChild(gitContent);
+
+  name.textContent = object.data.name;
+  name.classList.add('name');
+  gitContent.appendChild(name);
+
+  userName.textContent = object.data.login;
+  userName.classList.add('username');
+  gitContent.appendChild(userName);
+
+  location.textContent = object.data.location;
+  gitContent.appendChild(userName);
+
+  profile.textContent = object.data.html_url;
+
+
+
+}
+
+
 
 /*
   List of LS Instructors Github username's:
